@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'navigation.dart';
+import 'weather/weather_icons.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key, required this.title}) : super(key: key);
@@ -20,9 +21,18 @@ class HomeScreen extends StatelessWidget {
               icon: const Icon(Icons.settings))
         ],
       ),
-      body: Container(),
+      body: Center(
+        child: Container(
+          color: Colors.blue[100],
+          height: 300,
+          width: 300,
+          child: CustomPaint(
+            painter: SunCloudRain(),
+          ),
+        ),
+      ),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
         onPressed: () {},
       ),
     );
