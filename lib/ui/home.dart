@@ -22,13 +22,17 @@ class HomeScreen extends StatelessWidget {
         ],
       ),
       body: Center(
-        child: Container(
-          color: Colors.blue[100],
-          height: 300,
-          width: 300,
-          child: CustomPaint(
-            painter: SunCloudRain(),
-          ),
+        child: Column(
+          children: [
+            Container(
+              color: Colors.blue[100],
+              height: 300,
+              width: 300,
+              child: CustomPaint(
+                painter: WeatherIndicator(coef: 0.3),
+              ),
+            ),
+          ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
