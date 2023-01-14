@@ -23,6 +23,8 @@ class SettingsScreen extends StatelessWidget {
                     painter: ColorsWidget(
                         colorPalettes.values.toList()[index]['palette']))),
             title: Text(themeName),
+            selected: ThemeProvider.of(context).theme ==
+                colorPalettes[themeName]!['theme'],
           );
         },
         itemCount: 3,

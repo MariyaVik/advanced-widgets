@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:skillbox_14_6/theme/color_palettes.dart';
 
 final browmTheme = ThemeData(
+  listTileTheme:
+      ListTileThemeData(selectedTileColor: Brown.beige.withOpacity(0.5)),
   colorScheme: const ColorScheme(
     primary: Brown.brownDark,
     background: Brown.white,
@@ -28,6 +30,7 @@ final browmTheme = ThemeData(
 );
 
 final purpleTheme = ThemeData(
+  listTileTheme: const ListTileThemeData(selectedTileColor: Purple.cream),
   colorScheme: const ColorScheme(
     primary: Purple.purpleDark,
     background: Purple.cream,
@@ -44,6 +47,8 @@ final purpleTheme = ThemeData(
 );
 
 final colorfulTheme = ThemeData(
+  listTileTheme:
+      ListTileThemeData(selectedTileColor: Colorful.yellow.withOpacity(0.3)),
   colorScheme: const ColorScheme(
     primary: Colorful.blueDark,
     background: Colorful.white,
