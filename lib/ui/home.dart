@@ -21,10 +21,7 @@ class HomeScreen extends StatelessWidget {
               icon: const Icon(Icons.settings))
         ],
       ),
-      body: Center(
-        // child: AnimSimple(),
-        child: AnimAdvanced(),
-      ),
+      body: const AnimAdvanced(),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
         onPressed: () {},
@@ -50,13 +47,15 @@ class AnimAdvanced extends StatefulWidget {
 
 class _AnimAdvancedState extends State<AnimAdvanced>
     with SingleTickerProviderStateMixin {
-  final _animatedListKey = GlobalKey<AnimatedListState>();
+  // final _animatedListKey = GlobalKey<AnimatedListState>();
+
   late final AnimationController controller;
   late final Animation<AlignmentGeometry> alignAnim;
   late final Animation<double> sizeAnim;
+  late final Animation<double> opacityAnim;
   double currentValue = 0.2;
   bool moreInfo = false;
-  late List<Widget> myList;
+  // List<Widget> myList = [];
 
   @override
   void initState() {
@@ -64,21 +63,51 @@ class _AnimAdvancedState extends State<AnimAdvanced>
     controller =
         AnimationController(vsync: this, duration: const Duration(seconds: 1));
     alignAnim = Tween<AlignmentGeometry>(
-      begin: Alignment.topRight,
-      end: Alignment.center,
-    ).animate(CurvedAnimation(
+            begin: Alignment.topRight, end: Alignment.center)
+        .animate(CurvedAnimation(
+            parent: controller,
+            curve: const Interval(0.0, 1.0, curve: Curves.ease)));
+    sizeAnim = Tween<double>(begin: 200, end: 300).animate(CurvedAnimation(
         parent: controller,
         curve: const Interval(0.0, 1.0, curve: Curves.ease)));
-    sizeAnim = Tween<double>(begin: 200, end: 400).animate(CurvedAnimation(
+    opacityAnim = Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
         parent: controller,
         curve: const Interval(0.0, 1.0, curve: Curves.ease)));
-    myList = [];
   }
 
   @override
   void dispose() {
     controller.dispose();
     super.dispose();
+  }
+
+  void startAnimation() {
+    if (moreInfo) {
+      controller.animateBack(0).whenComplete(() {
+        moreInfo = !moreInfo;
+      });
+      // _animatedListKey.currentState!.removeItem(myList.length - 1,
+      //     (context, animation) {
+      //   print('5 $myList');
+
+      //   return Center(
+      //     child: FadeTransition(
+      //       opacity: animation,
+      //       child: Text('удаляем'),
+      //     ),
+      //   );
+      // }, duration: Duration(seconds: 1));
+      // myList.removeLast();
+    } else {
+      controller.forward();
+
+      moreInfo = !moreInfo;
+
+      // myList.insert(myList.length, const Text('-15 градусов'));
+      // _animatedListKey.currentState?.insertItem(myList.length - 1,
+      //     duration: Duration(seconds: 1));
+    }
+    setState(() {});
   }
 
   @override
@@ -89,69 +118,42 @@ class _AnimAdvancedState extends State<AnimAdvanced>
           return AlignTransition(
             alignment: alignAnim,
             child: ColoredBox(
-              color: Colors.purple,
+              color: Colors.purple.shade100,
               child: GestureDetector(
                 behavior: HitTestBehavior.translucent,
-                onTap: () {
-                  print('только нажали, больше инфы: $moreInfo');
-                  if (moreInfo) {
-                    controller.animateBack(0).whenComplete(() {
-                      moreInfo = !moreInfo;
-                      print('анимация закончилась, больше инфы: $moreInfo');
-                    });
-                    print('сейчас будем удалять');
-                    _animatedListKey.currentState!.removeItem(myList.length - 1,
-                        (context, animation) {
-                      print('5 $myList');
-
-                      return Center(
-                        child: FadeTransition(
-                          opacity: animation,
-                          child: Text('удаляем'),
-                        ),
-                      );
-                    }, duration: Duration(seconds: 1));
-                    myList.removeLast();
-                    print(myList);
-                  } else {
-                    controller.forward().whenComplete(() {
-                      moreInfo = !moreInfo;
-                      print('анимация закончилась, больше инфы: $moreInfo');
-                    });
-                    myList.insert(myList.length, const Text('-15 градусов'));
-                    _animatedListKey.currentState?.insertItem(myList.length - 1,
-                        duration: Duration(seconds: 1));
-                    print(myList);
-                  }
-                  setState(() {});
-                },
+                onTap: startAnimation,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     WeatherIndicatorWidget(
                         currentValue: currentValue, size: sizeAnim.value),
-                    ColoredBox(
-                      color: Colors.orange,
-                      child: SizedBox(
-                        width: sizeAnim.value,
-                        child: AnimatedList(
-                          clipBehavior: Clip.none,
-                          shrinkWrap: true,
-                          key: _animatedListKey,
-                          initialItemCount: myList.length,
-                          itemBuilder: (BuildContext context, int index,
-                              Animation<double> animation) {
-                            return Center(
-                              child: FadeTransition(
-                                opacity: animation
-                                    .drive(Tween(begin: 0.0, end: 1.0)),
-                                child: myList[index],
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                    ),
+                    // ColoredBox(
+                    //   color: Colors.orange,
+                    //   child: SizedBox(
+                    //     width: sizeAnim.value,
+                    //     child: AnimatedList(
+                    //       clipBehavior: Clip.none,
+                    //       shrinkWrap: true,
+                    //       key: _animatedListKey,
+                    //       initialItemCount: myList.length,
+                    //       itemBuilder: (BuildContext context, int index,
+                    //           Animation<double> animation) {
+                    //         return Center(
+                    //           child: FadeTransition(
+                    //             opacity: animation
+                    //                 .drive(Tween(begin: 0.0, end: 1.0)),
+                    //             child: myList[index],
+                    //           ),
+                    //         );
+                    //       },
+                    //     ),
+                    //   ),
+                    // ),
+
+                    if (moreInfo)
+                      FadeTransition(
+                          opacity: opacityAnim,
+                          child: const Text('-15 градусов')),
                   ],
                 ),
               ),
