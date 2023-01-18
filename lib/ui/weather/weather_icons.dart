@@ -1,10 +1,31 @@
 import 'package:flutter/material.dart';
 
+class WeatherIndicatorWidget extends StatelessWidget {
+  const WeatherIndicatorWidget(
+      {required this.size, required this.currentValue, super.key});
+  final double size;
+  final double currentValue;
+
+  @override
+  Widget build(BuildContext context) {
+    return FittedBox(
+      child: SizedBox.square(
+        dimension: size,
+        child: CustomPaint(
+          painter: WeatherIndicator(coef: currentValue),
+        ),
+      ),
+    );
+  }
+}
+
 class WeatherIndicator extends CustomPainter {
   double coef;
   WeatherIndicator({required this.coef});
   @override
   void paint(Canvas canvas, Size size) {
+    canvas.drawRect(Rect.fromLTWH(0, 0, size.width, size.height),
+        Paint()..color = Colors.teal);
     // ------------------------Солнце----------------------------------
     double opacitySun = coef >= 0.5 ? 1 : coef * 2;
     const scale = 1 / 3;
@@ -27,11 +48,13 @@ class WeatherIndicator extends CustomPainter {
       ),
     );
     final textPainter = TextPainter(
+      textAlign: TextAlign.center,
       text: textSpan,
       textDirection: TextDirection.ltr,
     );
     textPainter.layout();
-    final offset = Offset(0, size.height / 1500);
+    final offset =
+        Offset(size.width / 2 - textPainter.size.width / 2, size.height / 1500);
     textPainter.paint(canvas, offset);
 
     // ------------------------Дождь----------------------------------
