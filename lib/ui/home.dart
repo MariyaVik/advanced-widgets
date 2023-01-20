@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:skillbox_14_6/state/state_provider.dart';
 
 import 'navigation.dart';
 import 'weather/weather_icons.dart';
@@ -23,20 +24,12 @@ class HomeScreen extends StatelessWidget {
       ),
       body: const AnimAdvanced(),
       floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.add),
-        onPressed: () {},
+        onPressed: StateProvider.of(context).updateWeater,
+        child: const Icon(Icons.update),
       ),
     );
   }
 }
-
-// Slider(
-//                 value: currentValue,
-//                 onChanged: (value) {
-//                   setState(() {
-//                     currentValue = value;
-//                   });
-//                 })
 
 class AnimAdvanced extends StatefulWidget {
   const AnimAdvanced({super.key});
@@ -47,15 +40,11 @@ class AnimAdvanced extends StatefulWidget {
 
 class _AnimAdvancedState extends State<AnimAdvanced>
     with SingleTickerProviderStateMixin {
-  // final _animatedListKey = GlobalKey<AnimatedListState>();
-
   late final AnimationController controller;
   late final Animation<AlignmentGeometry> alignAnim;
   late final Animation<double> sizeAnim;
   late final Animation<double> opacityAnim;
-  double currentValue = 0.2;
   bool moreInfo = false;
-  // List<Widget> myList = [];
 
   @override
   void initState() {
@@ -67,7 +56,7 @@ class _AnimAdvancedState extends State<AnimAdvanced>
         .animate(CurvedAnimation(
             parent: controller,
             curve: const Interval(0.0, 1.0, curve: Curves.ease)));
-    sizeAnim = Tween<double>(begin: 200, end: 300).animate(CurvedAnimation(
+    sizeAnim = Tween<double>(begin: 80, end: 300).animate(CurvedAnimation(
         parent: controller,
         curve: const Interval(0.0, 1.0, curve: Curves.ease)));
     opacityAnim = Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
@@ -86,26 +75,9 @@ class _AnimAdvancedState extends State<AnimAdvanced>
       controller.animateBack(0).whenComplete(() {
         moreInfo = !moreInfo;
       });
-      // _animatedListKey.currentState!.removeItem(myList.length - 1,
-      //     (context, animation) {
-      //   print('5 $myList');
-
-      //   return Center(
-      //     child: FadeTransition(
-      //       opacity: animation,
-      //       child: Text('удаляем'),
-      //     ),
-      //   );
-      // }, duration: Duration(seconds: 1));
-      // myList.removeLast();
     } else {
       controller.forward();
-
       moreInfo = !moreInfo;
-
-      // myList.insert(myList.length, const Text('-15 градусов'));
-      // _animatedListKey.currentState?.insertItem(myList.length - 1,
-      //     duration: Duration(seconds: 1));
     }
     setState(() {});
   }
@@ -117,45 +89,20 @@ class _AnimAdvancedState extends State<AnimAdvanced>
         builder: (BuildContext context, Widget? child) {
           return AlignTransition(
             alignment: alignAnim,
-            child: ColoredBox(
-              color: Colors.purple.shade100,
-              child: GestureDetector(
-                behavior: HitTestBehavior.translucent,
-                onTap: startAnimation,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    WeatherIndicatorWidget(
-                        currentValue: currentValue, size: sizeAnim.value),
-                    // ColoredBox(
-                    //   color: Colors.orange,
-                    //   child: SizedBox(
-                    //     width: sizeAnim.value,
-                    //     child: AnimatedList(
-                    //       clipBehavior: Clip.none,
-                    //       shrinkWrap: true,
-                    //       key: _animatedListKey,
-                    //       initialItemCount: myList.length,
-                    //       itemBuilder: (BuildContext context, int index,
-                    //           Animation<double> animation) {
-                    //         return Center(
-                    //           child: FadeTransition(
-                    //             opacity: animation
-                    //                 .drive(Tween(begin: 0.0, end: 1.0)),
-                    //             child: myList[index],
-                    //           ),
-                    //         );
-                    //       },
-                    //     ),
-                    //   ),
-                    // ),
-
-                    if (moreInfo)
-                      FadeTransition(
-                          opacity: opacityAnim,
-                          child: const Text('-15 градусов')),
-                  ],
-                ),
+            child: GestureDetector(
+              behavior: HitTestBehavior.translucent,
+              onTap: startAnimation,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  WeatherIndicatorWidget(
+                      currentValue: StateProvider.of(context).weatherCoef,
+                      size: sizeAnim.value),
+                  if (moreInfo)
+                    FadeTransition(
+                        opacity: opacityAnim,
+                        child: const Text('-15 градусов')),
+                ],
               ),
             ),
           );

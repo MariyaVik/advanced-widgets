@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:skillbox_14_6/theme/theme_provider.dart';
+import 'package:skillbox_14_6/state/state_provider.dart';
 import 'package:skillbox_14_6/ui/navigation.dart';
 
 class App extends StatelessWidget {
@@ -7,12 +7,12 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StateThemeWidget(
+    return StateWidget(
       child: Builder(builder: (context) {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'Flutter Demo',
-          theme: ThemeProvider.of(context).theme,
+          theme: StateProvider.of(context).theme,
           initialRoute: NavRouteName.home,
           onGenerateRoute: Navigation.onGenerateRoute,
         );

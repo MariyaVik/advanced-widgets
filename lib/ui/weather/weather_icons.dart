@@ -24,8 +24,8 @@ class WeatherIndicator extends CustomPainter {
   WeatherIndicator({required this.coef});
   @override
   void paint(Canvas canvas, Size size) {
-    canvas.drawRect(Rect.fromLTWH(0, 0, size.width, size.height),
-        Paint()..color = Colors.teal);
+    // canvas.drawRect(Rect.fromLTWH(0, 0, size.width, size.height),
+    //     Paint()..color = Colors.teal);
     // ------------------------Солнце----------------------------------
     double opacitySun = coef >= 0.5 ? 1 : coef * 2;
     const scale = 1 / 3;
