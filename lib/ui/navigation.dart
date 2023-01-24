@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'home.dart';
-import 'setting_screen.dart';
+import 'screens/home.dart';
+import 'screens/setting_screen.dart';
 
 abstract class NavRouteName {
   static const home = '/';
@@ -16,7 +16,7 @@ class Navigation {
       case NavRouteName.home:
         return MaterialPageRoute(
             builder: (context) => const HomeScreen(
-                  title: 'Всё получится',
+                  title: 'Weather',
                 ));
       case NavRouteName.settings:
         return MaterialPageRoute(builder: (context) => const SettingsScreen());

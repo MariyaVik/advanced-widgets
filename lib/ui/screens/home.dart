@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../state/state_provider.dart';
-import 'navigation.dart';
-import 'widgets/weather_widget.dart';
+import '../../state/state_provider.dart';
+import '../navigation.dart';
+import '../widgets/weather_widget.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key, required this.title}) : super(key: key);

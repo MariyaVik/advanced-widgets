@@ -22,11 +22,12 @@ class _WeatherWidgetState extends State<WeatherWidget>
   @override
   void initState() {
     super.initState();
+
+    controller =
+        AnimationController(vsync: this, duration: const Duration(seconds: 1));
     final animationCurve = CurvedAnimation(
         parent: controller,
         curve: const Interval(0.0, 1.0, curve: Curves.ease));
-    controller =
-        AnimationController(vsync: this, duration: const Duration(seconds: 1));
     alignAnim = Tween<AlignmentGeometry>(
             begin: Alignment.topRight, end: Alignment.center)
         .animate(animationCurve);
