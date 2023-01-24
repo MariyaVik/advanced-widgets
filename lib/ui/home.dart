@@ -23,7 +23,7 @@ class HomeScreen extends StatelessWidget {
       ),
       body: const WeatherWidget(),
       floatingActionButton: FloatingActionButton(
-        onPressed: StateProvider.of(context).updateWeater,
+        onPressed: StateProvider.of(context).updateWeather,
         child: const Icon(Icons.update),
       ),
     );

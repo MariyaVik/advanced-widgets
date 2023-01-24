@@ -7,7 +7,7 @@ class InnerShadow extends SingleChildRenderObjectWidget {
   const InnerShadow({
     Key? key,
     this.blur = 10,
-    this.color = Colors.black38,
+    this.color = Colors.black,
     this.offset = const Offset(10, 10),
     Widget? child,
   }) : super(key: key, child: child);

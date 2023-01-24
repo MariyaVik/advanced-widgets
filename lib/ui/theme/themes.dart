@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:skillbox_14_6/theme/color_palettes.dart';
+import 'package:skillbox_14_6/ui/theme/color_palettes.dart';
 
 final browmTheme = ThemeData(
   listTileTheme:
@@ -17,16 +17,6 @@ final browmTheme = ThemeData(
     surface: Brown.white,
     onSurface: Brown.black,
   ),
-  // brightness: Brightness.dark,
-  // primarySwatch: Brown.brownLigth,
-  // scaffoldBackgroundColor: Colors.teal,
-  // textTheme: const TextTheme(
-  // displayLarge: TextStyle(
-  // fontFamily: 'Corben',
-  // fontWeight: FontWeight.w700,
-  // fontSize: 24,
-  // color: Colors.white,
-  // ),
 );
 
 final purpleTheme = ThemeData(

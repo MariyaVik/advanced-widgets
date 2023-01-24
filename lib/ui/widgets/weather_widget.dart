@@ -22,19 +22,16 @@ class _WeatherWidgetState extends State<WeatherWidget>
   @override
   void initState() {
     super.initState();
+    final animationCurve = CurvedAnimation(
+        parent: controller,
+        curve: const Interval(0.0, 1.0, curve: Curves.ease));
     controller =
         AnimationController(vsync: this, duration: const Duration(seconds: 1));
     alignAnim = Tween<AlignmentGeometry>(
             begin: Alignment.topRight, end: Alignment.center)
-        .animate(CurvedAnimation(
-            parent: controller,
-            curve: const Interval(0.0, 1.0, curve: Curves.ease)));
-    sizeAnim = Tween<double>(begin: 80, end: 300).animate(CurvedAnimation(
-        parent: controller,
-        curve: const Interval(0.0, 1.0, curve: Curves.ease)));
-    opacityAnim = Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
-        parent: controller,
-        curve: const Interval(0.0, 1.0, curve: Curves.ease)));
+        .animate(animationCurve);
+    sizeAnim = Tween<double>(begin: 80, end: 300).animate(animationCurve);
+    opacityAnim = Tween<double>(begin: 0.0, end: 1.0).animate(animationCurve);
   }
 
   @override
@@ -74,26 +71,34 @@ class _WeatherWidgetState extends State<WeatherWidget>
                   if (moreInfo)
                     FadeTransition(
                         opacity: opacityAnim,
-                        child: InnerShadow(
-                          blur: 5,
-                          color: StateProvider.of(context)
-                              .theme
-                              .colorScheme
-                              .primary,
-                          offset: const Offset(5, 5),
-                          child: Text('21\u2070',
-                              style: TextStyle(
-                                  color: StateProvider.of(context)
-                                      .theme
-                                      .colorScheme
-                                      .onPrimary,
-                                  fontSize: sizeAnim.value / 3,
-                                  fontWeight: FontWeight.w900)),
-                        )),
+                        child: Temperature(sizeAnim: sizeAnim)),
                 ],
               ),
             ),
           );
         });
+  }
+}
+
+class Temperature extends StatelessWidget {
+  const Temperature({
+    Key? key,
+    required this.sizeAnim,
+  }) : super(key: key);
+
+  final Animation<double> sizeAnim;
+
+  @override
+  Widget build(BuildContext context) {
+    return InnerShadow(
+      blur: 5,
+      color: StateProvider.of(context).theme.colorScheme.primary,
+      offset: const Offset(5, 5),
+      child: Text('21\u2070',
+          style: TextStyle(
+              color: StateProvider.of(context).theme.colorScheme.onPrimary,
+              fontSize: sizeAnim.value / 3,
+              fontWeight: FontWeight.w900)),
+    );
   }
 }

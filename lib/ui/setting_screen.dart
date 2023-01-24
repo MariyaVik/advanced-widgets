@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:skillbox_14_6/theme/color_palettes.dart';
+import 'package:skillbox_14_6/ui/theme/color_palettes.dart';
 import 'package:skillbox_14_6/state/state_provider.dart';
 
 class SettingsScreen extends StatelessWidget {

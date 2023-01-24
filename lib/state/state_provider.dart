@@ -2,8 +2,8 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-import '../theme/color_palettes.dart';
-import '../theme/themes.dart';
+import '../ui/theme/color_palettes.dart';
+import '../ui/theme/themes.dart';
 
 class StateWidget extends StatefulWidget {
   final Widget child;
@@ -18,11 +18,11 @@ class _StateWidgetState extends State<StateWidget> {
   double weatherCoef = 0.2;
 
   void changeTheme(String themeName) {
-    theme = colorPalettes[themeName]!['theme'] as ThemeData; // ?? browmTheme;
+    theme = colorPalettes[themeName]!['theme'] as ThemeData;
     setState(() {});
   }
 
-  void updateWeater() {
+  void updateWeather() {
     weatherCoef = Random().nextDouble();
     setState(() {});
   }
