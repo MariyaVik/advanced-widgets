@@ -34,8 +34,17 @@ abstract class Colorful {
   static List<Color> get colors => [pink, white, yellow, blueLight, blueDark];
 }
 
-var colorPalettes = {
-  'Brown': {'palette': Brown.colors, 'theme': browmTheme},
-  'Purple': {'palette': Purple.colors, 'theme': purpleTheme},
-  'Colorful': {'palette': Colorful.colors, 'theme': colorfulTheme}
-};
+class ThemeView {
+  final String name;
+  final List<Color> palette;
+  final ThemeData theme;
+
+  const ThemeView(
+      {required this.name, required this.palette, required this.theme});
+}
+
+var colorPalettes = [
+  ThemeView(name: 'Brown', palette: Brown.colors, theme: browmTheme),
+  ThemeView(name: 'Purple', palette: Purple.colors, theme: purpleTheme),
+  ThemeView(name: 'Colorful', palette: Colorful.colors, theme: colorfulTheme)
+];

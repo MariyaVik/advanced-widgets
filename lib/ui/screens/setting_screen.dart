@@ -13,22 +13,20 @@ class SettingsScreen extends StatelessWidget {
       appBar: AppBar(),
       body: ListView.builder(
         itemBuilder: (context, index) {
-          String themeName = colorPalettes.keys.toList()[index];
           return ListTile(
-            onTap: () => StateProvider.of(context).changeTheme(themeName),
+            onTap: () => StateProvider.of(context).changeTheme(index),
             leading: SizedBox(
                 height: 40,
                 width: 40,
                 child: CustomPaint(
                     painter: ColorsCircleWidget(
-                        colorPalette: colorPalettes.values.toList()[index]
-                            ['palette']))),
-            title: Text(themeName),
-            selected: StateProvider.of(context).theme ==
-                colorPalettes[themeName]!['theme'],
+                        colorPalette: colorPalettes[index].palette))),
+            title: Text(colorPalettes[index].name),
+            selected:
+                StateProvider.of(context).theme == colorPalettes[index].theme,
           );
         },
-        itemCount: 3,
+        itemCount: colorPalettes.length,
       ),
     );
   }

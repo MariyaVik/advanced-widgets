@@ -17,8 +17,8 @@ class _StateWidgetState extends State<StateWidget> {
   ThemeData theme = browmTheme;
   double weatherCoef = 0.2;
 
-  void changeTheme(String themeName) {
-    theme = colorPalettes[themeName]!['theme'] as ThemeData;
+  void changeTheme(int index) {
+    theme = colorPalettes[index].theme;
     setState(() {});
   }
 
