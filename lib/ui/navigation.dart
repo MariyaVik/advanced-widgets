@@ -15,7 +15,7 @@ class Navigation {
     switch (settings.name) {
       case NavRouteName.home:
         return MaterialPageRoute(
-            builder: (context) => const HomeScreen(
+            builder: (context) => HomeScreen(
                   title: 'Weather',
                 ));
       case NavRouteName.settings:

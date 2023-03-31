@@ -5,7 +5,8 @@ import 'custom_widgets/inner_shadow.dart';
 import 'custom_widgets/weather_icons.dart';
 
 class WeatherWidget extends StatefulWidget {
-  const WeatherWidget({super.key});
+  const WeatherWidget({required this.scrollController, super.key});
+  final ScrollController scrollController;
 
   @override
   State<WeatherWidget> createState() => _WeatherWidgetState();
@@ -53,27 +54,50 @@ class _WeatherWidgetState extends State<WeatherWidget>
     setState(() {});
   }
 
+  void scroll(DragUpdateDetails details) {
+    widget.scrollController
+        .jumpTo(widget.scrollController.offset - details.delta.dy);
+  }
+
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
         animation: controller,
         builder: (BuildContext context, Widget? child) {
-          return AlignTransition(
-            alignment: alignAnim,
-            child: GestureDetector(
-              behavior: HitTestBehavior.translucent,
-              onTap: startAnimation,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  WeatherIndicatorWidget(
-                      currentValue: StateProvider.of(context).weatherCoef,
-                      size: sizeAnim.value),
-                  if (moreInfo)
-                    FadeTransition(
-                        opacity: opacityAnim,
-                        child: Temperature(sizeAnim: sizeAnim)),
-                ],
+          return GestureDetector(
+            onVerticalDragUpdate: moreInfo ? null : scroll,
+            onTap: moreInfo ? startAnimation : null,
+            child: ColoredBox(
+              color: moreInfo
+                  ? Theme.of(context).colorScheme.onPrimary.withOpacity(0.5)
+                  : Colors.transparent,
+              child: AlignTransition(
+                alignment: alignAnim,
+                child: GestureDetector(
+                  behavior: HitTestBehavior.translucent,
+                  onTap: startAnimation,
+                  child: Container(
+                    padding: EdgeInsets.all(sizeAnim.value / 20),
+                    decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(opacityAnim.value),
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: const [
+                          BoxShadow(blurRadius: 25, color: Colors.white),
+                        ]),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        WeatherIndicatorWidget(
+                            currentValue: StateProvider.of(context).weatherCoef,
+                            size: sizeAnim.value),
+                        if (moreInfo)
+                          FadeTransition(
+                              opacity: opacityAnim,
+                              child: Temperature(sizeAnim: sizeAnim)),
+                      ],
+                    ),
+                  ),
+                ),
               ),
             ),
           );

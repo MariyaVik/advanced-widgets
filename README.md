@@ -7,5 +7,5 @@ Indicator change depending on the coefficient (from 0.0 to 1.0)
 Application operation
 
 
-<img src="assets\screenshots\done_main_tasks.gif" width="330" height="500">
+<img src="assets\screenshots\done_main_tasks.gif" width="320" height="550">
 
